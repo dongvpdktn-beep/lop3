@@ -84,15 +84,20 @@ html{-webkit-text-size-adjust:100%}
 .meter i{display:block;height:100%;background:var(--good)}
 .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:14px}
 .sub{--c:hsl(var(--h) var(--sub-s) var(--sub-l));--cb:hsl(var(--h) 70% var(--sub-bg-l));text-align:left;background:var(--card);border:2px solid var(--line);border-radius:16px;padding:0;overflow:hidden;display:flex;flex-direction:column;transition:transform .15s,border-color .15s}
-.sub:hover{transform:translateY(-2px);border-color:var(--c)}
-.sub .label{background:var(--cb);padding:14px 16px 10px;display:flex;align-items:center;gap:12px;border-bottom:2px dashed var(--c)}
+.sub:hover{border-color:var(--c)}
+.sub .label{background:var(--cb);padding:14px 16px 10px;display:flex;align-items:center;gap:12px;border:none;border-bottom:2px dashed var(--c);width:100%;text-align:left;cursor:pointer;font:inherit;color:inherit}
+.sub .label .more{margin-left:auto;font-size:.85rem;font-weight:800;color:var(--muted);white-space:nowrap}
 .badge{width:46px;height:46px;flex:none;border-radius:12px;background:hsl(var(--h) var(--sub-s) var(--sub-l));color:var(--card);display:grid;place-items:center;font-family:var(--display);font-weight:800;font-size:1.2rem}
 .sub h3{font-size:1.3rem}
 .sub .meta{padding:10px 16px 14px;color:var(--muted);font-size:.93rem;display:flex;flex-direction:column;gap:8px;flex:1}
 .steps{display:flex;gap:6px}
-.stp{flex:1;border-radius:8px;padding:3px 0;text-align:center;font-size:.78rem;font-weight:800;border:2px solid var(--line);color:var(--muted)}
+.stp{flex:1;border-radius:10px;padding:6px 0;min-height:44px;text-align:center;font:inherit;font-size:.85rem;font-weight:800;border:2px solid var(--line);color:var(--muted);background:transparent;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;line-height:1.15}
+.stp small{font-size:.72rem;font-weight:700;opacity:.85}
+.stp:active{transform:scale(.97)}
 .stp.done{background:var(--c);border-color:var(--c);color:var(--card)}
 .stp.open{border-color:var(--c);color:var(--ink)}
+.stp:hover{background:var(--cb)}
+.stp.done:hover{background:var(--c)}
 .row2{margin-top:18px;display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px}
 .box{background:var(--card);border:2px solid var(--line);border-radius:16px;padding:16px;display:flex;flex-direction:column;gap:8px;min-width:0}
 .box h3{font-size:1.25rem}
@@ -325,6 +330,10 @@ function enGen(){const[en,vi]=pick(enAll);const pool=shuffle(enAll.filter(w=>w[0
 const PA1="Hi, I’m Lan. I’m eight years old. I have a brother. His name is Minh. He is ten. We have a cat. It is white. We like playing football in the park.";
 const PA2="This is my school. It is big. There is a library and a computer room. My classroom is on the second floor. I like the music room because I can sing there.";
 const PV1="Sáng sớm, ông mặt trời thức dậy, vươn vai rồi nhẹ nhàng rải nắng xuống cánh đồng. Những bông lúa chín vàng nghiêng mình chào gió. Bác nông dân ra đồng từ rất sớm. Trên bờ ruộng, lũ chim sẻ ríu rít gọi nhau đi tìm thóc rơi. Cánh đồng quê em đẹp như một tấm thảm vàng khổng lồ.";
+const PV3="Nhà bà ngoại em ở một làng nhỏ ven sông Cầu. Trước ngõ có cây gạo già. Mỗi độ tháng ba, hoa gạo nở đỏ rực như những ngọn đuốc. Chim sáo, chim chào mào kéo về ríu rít cả ngày. Em thích nhất là được theo bà ra bến sông, ngắm những con thuyền nhỏ chở đầy rau xanh xuôi về chợ.";
+const PV4="Kiến Con đi kiếm ăn, chẳng may bị rơi xuống dòng suối. Nước chảy xiết, Kiến Con hoảng sợ kêu cứu. Chị Bồ Câu đậu trên cành cây thấy vậy liền thả xuống một chiếc lá. Kiến Con bám vào chiếc lá và vào được bờ. Mấy hôm sau, Kiến Con thấy người thợ săn đang giương súng nhắm vào Bồ Câu. Kiến bò đến đốt vào chân anh ta. Người thợ săn giật mình, Bồ Câu bay vút đi.";
+const PA3="My name is Minh. I am nine years old. I live in Thai Nguyen. I have a dog. Its name is Lu. It is black and white. Every morning, I walk to school with my friend Nam. I like Maths and English.";
+const PA4="Today is Sunday. It is sunny and hot. Mai and her family go to the beach. Her father swims in the sea. Her mother reads a book. Mai and her brother make a sand castle. They are very happy.";
 const PV2="Giờ ra chơi, Nam vô ý làm đổ lọ mực lên vở của Hà. Nam đỏ mặt, lúng túng. Cậu vội lấy giấy thấm lau vở cho bạn rồi nói: “Mình xin lỗi Hà nhé!”. Hà mỉm cười: “Không sao đâu, lần sau cậu cẩn thận hơn là được.” Từ hôm đó, hai bạn càng thân nhau hơn.";
 
 /* ---------- bài học Toán nâng cao: sơ đồ đoạn thẳng ---------- */
@@ -385,6 +394,16 @@ const SUBJ=[
  ["Câu “Chị gió hát ru cả khu vườn.” dùng biện pháp gì?","Nhân hóa",["So sánh","Câu hỏi","Liệt kê"],"Gọi gió là “chị”, tả gió “hát ru” như người."],
  ["Từ nào điền vào chỗ trống để có hình ảnh so sánh: “Những chiếc lá vàng rơi ... những cánh bướm nhỏ.”","như",["và","nhưng","vì"],"“Như” là từ so sánh."],
  ["“Uống nước nhớ nguồn” khuyên chúng ta:","Biết ơn người đã tạo ra thành quả cho mình",["Uống nước ở nguồn suối","Uống nhiều nước","Nhớ đường về nhà"],"Khuyên lòng biết ơn."],
+ ["Nhà bà ngoại của bạn nhỏ ở đâu?","Ở một làng nhỏ ven sông Cầu",["Ở thành phố lớn","Trên núi cao","Bên bờ biển"],"Câu đầu: làng nhỏ ven sông Cầu.","",PV3],
+ ["Hoa gạo nở vào tháng mấy?","Tháng ba",["Tháng năm","Tháng chín","Tháng mười hai"],"Bài viết: “Mỗi độ tháng ba”.","",PV3],
+ ["Hoa gạo được so sánh với hình ảnh nào?","những ngọn đuốc",["những con thuyền","những chú chim","bó rau xanh"],"Hoa gạo nở đỏ rực như những ngọn đuốc.","Tìm từ “như”.",PV3],
+ ["Từ nào tả màu của hoa gạo?","đỏ rực",["xanh biếc","vàng óng","trắng tinh"],"Hoa gạo nở đỏ rực.","",PV3],
+ ["Bạn nhỏ thích nhất điều gì?","Theo bà ra bến sông ngắm thuyền",["Hái hoa gạo","Bắt chim sáo","Đi chợ bán rau"],"Câu cuối nói điều bạn nhỏ thích nhất.","",PV3],
+ ["Ai đã cứu Kiến Con?","Chị Bồ Câu",["Người thợ săn","Chú Ếch","Bác Rùa"],"Chị Bồ Câu thả chiếc lá xuống suối.","",PV4],
+ ["Bồ Câu cứu Kiến Con bằng cách nào?","Thả xuống một chiếc lá",["Bay xuống ngậm Kiến","Gọi người thợ săn","Nhảy xuống suối"],"Kiến bám vào chiếc lá để vào bờ.","",PV4],
+ ["Kiến Con đã đền ơn Bồ Câu thế nào?","Đốt vào chân người thợ săn",["Tặng Bồ Câu hạt thóc","Dẫn Bồ Câu về tổ","Kêu to báo động"],"Người thợ săn giật mình, Bồ Câu bay thoát.","",PV4],
+ ["Câu chuyện khuyên em điều gì?","Biết giúp đỡ người khác và biết đền ơn",["Không nên đi kiếm ăn","Phải sợ người thợ săn","Không nên ra suối"],"Bồ Câu giúp Kiến, Kiến đền ơn Bồ Câu.","Hai con vật đã làm gì cho nhau?",PV4],
+ ["Kiến Con và Bồ Câu được viết theo biện pháp nào?","Nhân hóa",["So sánh","Không có biện pháp nào","Liệt kê"],"Được gọi là “Kiến Con, chị Bồ Câu”, biết suy nghĩ và hành động như người.","",PV4],
  ["Câu văn nào tả hay nhất?","Chiếc cặp màu xanh da trời, khóa sáng bóng như đồng xu mới.",["Chiếc cặp đẹp.","Cặp của em tốt.","Em có cái cặp."],"Có từ chỉ màu sắc cụ thể và hình ảnh so sánh."],
  ]}},
 {id:"toan",name:"Toán",b:"+×",h:210,intro:"Số đến 100 000, bảng nhân chia, hình học, giải toán",
@@ -436,6 +455,17 @@ const SUBJ=[
  ["Is the school big?","Yes, it is.",["No, it isn’t.","Yes, I am.","No, I can’t."],"Bài viết: It is big.","",PA2],
  ["Where is the classroom?","on the second floor",["in the library","on the first floor","in the music room"],"Bài viết: My classroom is on the second floor.","",PA2],
  ["Why does the child like the music room?","Because he or she can sing there.",["Because it is big.","Because there are books.","Because it is white."],"Bài viết: because I can sing there.","Câu trả lời có “because”.",PA2],
+ ["How old is Minh?","He is nine.",["He is eight.","He is ten.","He is seven."],"I am nine years old.","",PA3],
+ ["Where does Minh live?","in Thai Nguyen",["in Ha Noi","in Hue","in Da Nang"],"I live in Thai Nguyen.","",PA3],
+ ["What is the dog’s name?","Lu",["Nam","Minh","Kiki"],"Its name is Lu.","",PA3],
+ ["What colour is the dog?","black and white",["brown","yellow","black"],"It is black and white.","",PA3],
+ ["Who does Minh walk to school with?","Nam",["his mother","his dog","Lan"],"I walk to school with my friend Nam.","",PA3],
+ ["What subjects does Minh like?","Maths and English",["Music and Art","Maths and Music","English and Art"],"I like Maths and English.","",PA3],
+ ["What day is it?","Sunday",["Monday","Saturday","Friday"],"Today is Sunday.","",PA4],
+ ["What’s the weather like?","sunny and hot",["rainy and cold","windy","cloudy"],"It is sunny and hot.","",PA4],
+ ["Where does Mai’s family go?","to the beach",["to the park","to school","to the zoo"],"Mai and her family go to the beach.","",PA4],
+ ["What does Mai’s mother do?","She reads a book.",["She swims.","She cooks.","She sings."],"Her mother reads a book.","",PA4],
+ ["What do Mai and her brother make?","a sand castle",["a kite","a cake","a robot"],"Mai and her brother make a sand castle.","",PA4],
  ["Chọn câu đúng:","She has a doll.",["She have a doll.","She haves a doll.","She having a doll."],"She/He đi với has."],
  ["Từ nào có âm đầu giống “ball”?","book",["pen","cat","dog"],"Ball và book cùng bắt đầu bằng âm /b/."],
  ["Chọn câu đúng: Tớ không biết bơi.","I can’t swim.",["I can swim.","I not swim.","I don’t can swim."],"can’t = không thể."],
@@ -743,20 +773,212 @@ const SUBJ=[
  ]}},
 ];
 
+/* ---------- BỘ TỰ SINH CÂU HỎI (mọi môn) ---------- */
+const cap=s=>s.charAt(0).toUpperCase()+s.slice(1);
+const mk=(q,a,w,e,h,p)=>({q,o:[a].concat([...new Set(w)].filter(x=>x!==a).slice(0,3)),e:e||"",h:h||"",p:p||""});
+const pickN=(arr,n,ex)=>shuffle([...new Set(arr)].filter(x=>!(ex||[]).includes(x))).slice(0,n);
+function cls(groups,t,q,ef){const a=pick(groups[t]);const others=Object.keys(groups).filter(k=>k!==t).flatMap(k=>groups[k]);return mk(q,a,pickN(others,3),ef?ef(a,t):`“${cap(a)}” thuộc nhóm: ${t}.`)}
+function which(groups,qf,ef){const ks=Object.keys(groups);const k=pick(ks);const it=pick(groups[k]);return mk(qf(it),k,pickN(ks,3,[k]),ef?ef(it,k):`${cap(it)} → ${k}.`)}
+function pairQ(pairs,qa,qb,ef){const pr=pick(pairs);const[a,b]=pr;const e=ef?ef(a,b):`${cap(a)}: ${b}.`;
+ if(!qb||Math.random()<.5)return mk(qa(a),b,pickN(pairs.map(p=>p[1]),3,[b]),e);
+ return mk(qb(b),a,pickN(pairs.map(p=>p[0]),3,[a]),e)}
+function countGood(good,bad,q){const n=R(0,4);const items=shuffle(pickN(good,n).concat(pickN(bad,4-n)));const g=items.filter(x=>good.includes(x));
+ return mk(`${q}\n`+items.map((x,i)=>`${i+1}. ${cap(x)}`).join("\n"),`${n} việc`,shuffle([0,1,2,3,4].filter(x=>x!==n)).slice(0,3).map(x=>`${x} việc`),g.length?`Việc nên làm: ${g.join("; ")}.`:"Không có việc nào nên làm.","Đọc từng việc và tự hỏi: việc này đúng hay sai?")}
+function gb(good,bad){return{1:[()=>cls({a:good,b:bad},"a","Việc làm nào đúng, nên làm?",a=>`“${cap(a)}” là việc nên làm.`)],2:[()=>cls({a:good,b:bad},"b","Việc làm nào chưa đúng, cần tránh?",a=>`“${cap(a)}” là việc cần tránh.`)],3:[()=>countGood(good,bad,"Trong các việc sau, có mấy việc nên làm?")]}}
+function seqQ(tasks){const[n,st]=pick(tasks);const i=R(0,st.length-1);return mk(`Để ${n}, bước thứ ${i+1} là gì?`,st[i],st.filter((_,k)=>k!==i),`Thứ tự đúng: ${st.join(" → ")}.`,"Nghĩ xem việc nào phải làm trước.")}
+function nextQ(tasks){const[n,st]=pick(tasks);const i=R(0,st.length-2);return mk(`Khi ${n}, việc làm ngay sau “${st[i]}” là:`,st[i+1],st.filter((_,k)=>k!==i+1),`Thứ tự đúng: ${st.join(" → ")}.`)}
+const merge=(...xs)=>{const o={1:[],2:[],3:[]};xs.forEach(x=>[1,2,3].forEach(l=>o[l]=o[l].concat(x[l]||[])));return o};
+
+/* Tiếng Việt */
+const WC={"sự vật":["cô giáo","bác sĩ","học sinh","con mèo","con trâu","chú gà","cái bàn","quyển vở","bút chì","cặp sách","cây bàng","bông hoa","dòng sông","ngọn núi","mặt trời","đám mây","ngôi nhà","lớp học","xe đạp","đồng hồ","quả cam","con đường","cánh đồng","chiếc lá","ông nội","bà ngoại","con cá","tổ chim","cây tre","cái thước"],
+"hoạt động":["chạy","nhảy","đọc","viết","hát","múa","quét nhà","nấu cơm","tưới cây","bơi","học bài","vẽ","đá cầu","rửa bát","đi học","trồng cây","gấp quần áo","kể chuyện","lắng nghe","giặt","leo","bay","ăn","ngủ","cười","câu cá","thả diều","tập thể dục"],
+"đặc điểm":["xanh biếc","đỏ tươi","trắng tinh","cao lớn","thấp bé","tròn xoe","dài","ngắn","chăm chỉ","hiền lành","dũng cảm","thông minh","nhanh nhẹn","thơm ngát","ngọt lịm","mềm mại","cứng","nóng","lạnh","vui vẻ","siêng năng","lười biếng","xinh xắn","rực rỡ","vàng óng","nhỏ xíu","khổng lồ","trong xanh"]};
+const ANT=[["cao","thấp"],["to","nhỏ"],["dài","ngắn"],["nóng","lạnh"],["nhanh","chậm"],["vui","buồn"],["sáng","tối"],["đầy","vơi"],["khỏe","yếu"],["trắng","đen"],["mới","cũ"],["già","trẻ"],["rộng","hẹp"],["dày","mỏng"],["nặng","nhẹ"],["xa","gần"],["sớm","muộn"],["trên","dưới"],["trước","sau"],["ngày","đêm"],["chăm chỉ","lười biếng"],["hiền","dữ"],["sạch","bẩn"],["thắng","thua"],["mở","đóng"],["khóc","cười"],["đứng","ngồi"],["vào","ra"],["lên","xuống"],["ồn ào","yên tĩnh"]];
+const SYN=[["chăm chỉ","siêng năng"],["to","lớn"],["nhỏ","bé"],["vui","mừng"],["thông minh","sáng dạ"],["dũng cảm","gan dạ"],["bố","ba"],["mẹ","má"],["quả","trái"],["lợn","heo"],["bát","chén"],["cần cù","chịu khó"],["yêu thương","thương yêu"],["Tổ quốc","đất nước"],["ngắm","nhìn"],["trò chuyện","nói chuyện"],["xinh","đẹp"],["hiền","hiền lành"]];
+const SP=[["sân trường","xân trường"],["xinh xắn","sinh sắn"],["sạch sẽ","xạch xẽ"],["sương mù","xương mù"],["quả xoài","quả soài"],["trường học","chường học"],["trăng tròn","chăng chòn"],["che chở","tre trở"],["quả chuối","quả truối"],["cô giáo","cô dáo"],["dạy dỗ","rạy rỗ"],["gió thổi","dó thổi"],["nắng vàng","lắng vàng"],["lúa chín","núa chín"],["nón lá","lón ná"],["con trâu","con châu"],["bánh chưng","bánh trưng"],["giặt giũ","dặt dũ"],["rộn ràng","giộn giàng"],["xấu hổ","sấu hổ"],["sáng sủa","xáng xủa"],["chăm chỉ","trăm trỉ"],["trung thực","chung thực"],["ngoan ngoãn","ngoan ngoản"],["suy nghĩ","suy nghỉ"],["vẽ tranh","vẻ tranh"],["uống sữa","uống sửa"],["dũng cảm","dủng cảm"],["bãi biển","bải biển"],["kiên nhẫn","kiên nhẩn"],["nghỉ hè","nghĩ hè"],["gọn gàng","gọn giàng"]];
+const STYPE={"Câu kể":["Em đi học lúc sáu giờ.","Mẹ em là giáo viên.","Con mèo nằm sưởi nắng.","Sân trường có nhiều cây bàng.","Chủ nhật, cả nhà em về quê.","Hôm nay trời nắng đẹp.","Bố em đang đọc báo.","Lớp em có ba mươi bạn."],
+"Câu hỏi":["Bạn tên là gì?","Hôm nay là thứ mấy?","Nhà bạn ở đâu?","Vì sao bạn đến muộn?","Bạn thích môn học nào?","Khi nào lớp mình đi tham quan?","Ai là lớp trưởng lớp bạn?","Con mèo đâu rồi?"],
+"Câu cảm":["Ôi, bông hoa đẹp quá!","Chao ôi, biển rộng mênh mông!","Bạn giỏi quá!","A, mẹ về rồi!","Trời ơi, nóng quá!","Ồ, con diều bay cao quá!","Ôi, em vui quá!"],
+"Câu khiến":["Con hãy đóng cửa lại.","Các em hãy giữ trật tự.","Đừng chạy trên cầu thang!","Bạn cho mình mượn bút nhé!","Cả lớp mở sách ra.","Em hãy tưới cây giúp mẹ.","Đừng vứt rác bừa bãi.","Chúng mình cùng chơi nhé!"]};
+const MAU={"Ai là gì?":["Thành là học sinh lớp 3.","Bố em là kĩ sư.","Hoa hồng là loài hoa đẹp.","Trâu là bạn của nhà nông.","Cô Lan là giáo viên chủ nhiệm.","Thái Nguyên là quê hương của em."],
+"Ai làm gì?":["Đàn chim bay về tổ.","Bà đang kể chuyện.","Các bạn nhảy dây ngoài sân.","Mẹ nấu cơm.","Chú công nhân sửa đường.","Em tưới cây mỗi sáng."],
+"Ai thế nào?":["Bầu trời trong xanh.","Mái tóc của bà bạc trắng.","Chú mèo rất tinh nghịch.","Dòng sông hiền hòa.","Cánh đồng lúa vàng óng.","Bạn Nam rất chăm chỉ."]};
+const PARTS=[["Sáng mai, lớp em đi tham quan.","Sáng mai","Khi nào?"],["Hôm qua, em được điểm mười.","Hôm qua","Khi nào?"],["Mùa hè, hoa phượng nở đỏ rực.","Mùa hè","Khi nào?"],["Tối nay, cả nhà em xem phim.","Tối nay","Khi nào?"],["Chúng em chơi đá cầu ở sân trường.","ở sân trường","Ở đâu?"],["Trên cành cây, chim hót líu lo.","Trên cành cây","Ở đâu?"],["Ông em trồng rau ngoài vườn.","ngoài vườn","Ở đâu?"],["Đàn cá bơi lội dưới ao.","dưới ao","Ở đâu?"],["Vì trời mưa, em mang áo mưa.","Vì trời mưa","Vì sao?"],["Nam được khen vì học chăm.","vì học chăm","Vì sao?"],["Cây héo vì thiếu nước.","vì thiếu nước","Vì sao?"],["Nhờ chăm chỉ, Lan học tiến bộ.","Nhờ chăm chỉ","Vì sao?"],["Các bạn đang quét lớp.","đang quét lớp","Làm gì?"],["Bà em đang may áo.","đang may áo","Làm gì?"]];
+const TUC=[["Uống nước nhớ nguồn","Biết ơn người đã tạo ra thành quả cho mình"],["Lá lành đùm lá rách","Giúp đỡ, đùm bọc người gặp khó khăn"],["Có công mài sắt, có ngày nên kim","Kiên trì thì sẽ thành công"],["Một cây làm chẳng nên non, ba cây chụm lại nên hòn núi cao","Đoàn kết tạo nên sức mạnh"],["Anh em như thể tay chân","Anh chị em trong nhà phải thương yêu nhau"],["Công cha như núi Thái Sơn","Công ơn cha mẹ rất lớn lao"],["Tốt gỗ hơn tốt nước sơn","Phẩm chất tốt quan trọng hơn vẻ bề ngoài"],["Thương người như thể thương thân","Yêu thương người khác như yêu thương chính mình"],["Học thầy không tày học bạn","Cần học hỏi cả ở bạn bè"],["Đi một ngày đàng, học một sàng khôn","Đi nhiều nơi thì học được nhiều điều"]];
+const BP={"So sánh":["Mặt trăng tròn như cái đĩa bạc.","Tiếng suối trong như tiếng hát xa.","Những ngôi sao như những ngọn đèn nhỏ.","Trẻ em như búp trên cành.","Chiếc lá như con thuyền nhỏ.","Mắt bé tròn như hạt nhãn."],
+"Nhân hóa":["Chị gió hát ru cả khu vườn.","Ông mặt trời thức dậy.","Cây bàng vẫy tay chào em.","Bác kim đồng hồ chăm chỉ làm việc.","Chú gà trống gọi mọi người dậy.","Những bông hoa cười rạng rỡ."],
+"Không dùng so sánh hay nhân hóa":["Em đi học đúng giờ.","Mẹ mua cho em chiếc cặp mới.","Lớp em có hai mươi bạn nữ.","Bố em trồng một cây bưởi."]};
+const SS=[["Mặt trăng tròn như cái đĩa bạc.","mặt trăng","cái đĩa bạc"],["Những ngôi sao như những ngọn đèn nhỏ.","những ngôi sao","những ngọn đèn nhỏ"],["Chiếc lá như con thuyền nhỏ.","chiếc lá","con thuyền nhỏ"],["Mắt bé tròn như hạt nhãn.","mắt bé","hạt nhãn"],["Hoa gạo đỏ như những ngọn đuốc.","hoa gạo","những ngọn đuốc"],["Cánh đồng lúa như tấm thảm vàng.","cánh đồng lúa","tấm thảm vàng"],["Tiếng ve như dàn đồng ca mùa hè.","tiếng ve","dàn đồng ca"]];
+const G_TV={
+1:[()=>{const t=pick(Object.keys(WC));return cls(WC,t,`Từ nào là từ chỉ ${t}?`,a=>`“${a}” là từ chỉ ${t}.`)},
+ ()=>which(WC,it=>`“${cap(it)}” là từ chỉ gì?`,(it,k)=>`“${it}” là từ chỉ ${k}.`),
+ ()=>{const[a,b]=pick(ANT);const[x,y]=Math.random()<.5?[a,b]:[b,a];return mk(`Từ trái nghĩa với “${x}” là:`,y,pickN(ANT.flat(),3,[x,y]),`${x} – ${y} là cặp từ trái nghĩa.`)},
+ ()=>{const pr=pick(SP);return mk("Từ nào viết đúng chính tả?",pr[0],[pr[1]].concat(pickN(SP.filter(p=>p!==pr).map(p=>p[1]),2)),`Viết đúng: “${pr[0]}”.`)},
+ ()=>which(STYPE,it=>`Câu “${it}” là kiểu câu nào?`,(it,k)=>`Đây là ${k.toLowerCase()}.`),
+ ()=>{const t=pick(Object.keys(STYPE));return cls(STYPE,t,`Câu nào là ${t.toLowerCase()}?`,a=>`“${a}” là ${t.toLowerCase()}.`)}],
+2:[()=>{const[a,b]=pick(SYN);const[x,y]=Math.random()<.5?[a,b]:[b,a];return mk(`Từ cùng nghĩa với “${x}” là:`,y,pickN(ANT.flat(),3,[x,y]),`${x} và ${y} có nghĩa giống nhau.`)},
+ ()=>{const pr=pick(SP);return mk("Từ nào viết sai chính tả?",pr[1],pickN(SP.filter(p=>p!==pr).map(p=>p[0]),3),`“${pr[1]}” viết sai, đúng là “${pr[0]}”.`)},
+ ()=>which(MAU,it=>`Câu “${it}” thuộc mẫu câu nào?`,(it,k)=>`Câu trả lời cho câu hỏi “${k}”.`),
+ ()=>{const[s,p,t]=pick(PARTS);return mk(`Trong câu “${s}”, bộ phận “${p}” trả lời câu hỏi nào?`,t,["Khi nào?","Ở đâu?","Vì sao?","Làm gì?"].filter(x=>x!==t),`“${p}” trả lời câu hỏi ${t}`)},
+ ()=>{const t=pick(Object.keys(WC));const right=pickN(WC[t],3).join(", ");const others=Object.keys(WC).filter(k=>k!==t).flatMap(k=>WC[k]);const wr=[0,1,2].map(()=>shuffle(pickN(WC[t],2).concat(pickN(others,1))).join(", "));return mk(`Nhóm nào gồm toàn từ chỉ ${t}?`,right,wr,`Nhóm “${right}” đều là từ chỉ ${t}.`,"Kiểm tra từng từ trong nhóm.")},
+ ()=>pairQ(TUC,a=>`Câu “${a}” khuyên chúng ta điều gì?`,null,(a,b)=>`“${a}”: ${b.toLowerCase()}.`)],
+3:[()=>which(BP,it=>`Câu “${it}” dùng biện pháp gì?`,(it,k)=>k==="Nhân hóa"?"Sự vật được gọi hoặc tả bằng từ ngữ dùng cho người.":k==="So sánh"?"Có hai sự vật được so sánh với nhau (có từ “như”).":"Câu không có so sánh hay nhân hóa."),
+ ()=>{const[s,x,y]=pick(SS);return mk(`Trong câu “${s}”, ${x} được so sánh với gì?`,y,pickN(SS.map(z=>z[2]),3,[y]),`${cap(x)} được so sánh với ${y}.`,"Tìm từ “như” trong câu.")},
+ ()=>pairQ(TUC,a=>`Câu “${a}” khuyên chúng ta điều gì?`,b=>`Câu tục ngữ nào khuyên: “${b}”?`,(a,b)=>`“${a}”: ${b.toLowerCase()}.`)]};
+
+/* Tiếng Anh */
+const NUMW=["zero","one","two","three","four","five","six","seven","eight","nine","ten","eleven","twelve","thirteen","fourteen","fifteen","sixteen","seventeen","eighteen","nineteen","twenty"];
+const NOUNS=["pen","book","ruler","cat","dog","bird","kite","robot","doll","car","ball","notebook","rabbit","parrot","pencil"];
+const SENTS=["My name is Thanh.","I am eight years old.","This is my school bag.","She is my sister.","I can ride a bike.","There are two cats.","It is sunny today.","I like playing football.","My classroom is big.","Where is the library?","What colour is your pen?","He is my brother."];
+function orderQ(){const s=pick(SENTS);const end=s.slice(-1);const w=s.slice(0,-1).split(" ").map(x=>/^(I|Thanh)$/.test(x)?x:x.toLowerCase());const f=a=>cap(a.join(" "))+end;const ans=f(w);const wr=new Set();let t=0;while(wr.size<3&&t<60){t++;const x=f(shuffle(w));if(x!==ans)wr.add(x)}return mk("Chọn câu viết đúng thứ tự:",ans,[...wr],`Câu đúng: ${ans}`,"Câu tiếng Anh thường bắt đầu bằng người/vật rồi đến “is/am/are/can”.")}
+const QW=[["___ is your name?","What"],["___ old are you?","How"],["___ is the library? – It’s over there.","Where"],["___ is that? – That’s my father.","Who"],["___ many pens do you have?","How"],["___ colour is your bag?","What"],["___ are you? – I’m fine, thank you.","How"],["___ is my ruler? – It’s on the desk.","Where"],["___ is your teacher? – Miss Hoa.","Who"],["___ do you like? – I like cats.","What"]];
+const ENCAT=["Đồ dùng học tập","Màu sắc","Gia đình","Con vật","Đồ chơi","Cơ thể","Thời tiết"];
+const G_TA={
+1:[enGen,enGen,()=>{const n=R(1,20);return Math.random()<.5?mk(`Số ${n} trong tiếng Anh là:`,NUMW[n],pickN(NUMW.slice(1),3,[NUMW[n]]),`${n} = ${NUMW[n]}.`):mk(`“${NUMW[n]}” là số mấy?`,String(n),pickN([...Array(20)].map((_,i)=>String(i+1)),3,[String(n)]),`${NUMW[n]} = ${n}.`)}],
+2:[()=>{const n=R(2,9),w=pick(NOUNS);return mk(`I have ${NUMW[n]} ___ .`,w+"s",[w,"a "+w,"an "+w+"s"],`Từ 2 vật trở lên thì thêm s: ${w} → ${w}s.`)},
+ ()=>{const w=pick(NOUNS);return Math.random()<.5?mk(`There ___ a ${w}.`,"is",["are","am","be"],"Một vật dùng “is”."):mk(`There ___ ${NUMW[R(2,9)]} ${w}s.`,"are",["is","am","be"],"Nhiều vật dùng “are”.")},
+ ()=>{const m=Math.random()<.5;const w=m?pick(["father","brother","grandfather"]):pick(["mother","sister","grandmother"]);return mk(`Who’s that? – ___ my ${w}.`,m?"He’s":"She’s",[m?"She’s":"He’s","It’s","They’re"],`${w} là ${m?"nam → He’s":"nữ → She’s"}.`)},
+ ()=>{const m=Math.random()<.5;const nm=m?pick(["Nam","Minh","Quân","Phong"]):pick(["Mai","Lan","Hoa","Linh"]);return mk(`This is my friend. ___ name is ${nm}.`,m?"His":"Her",[m?"Her":"His","My","Its"],`${nm} là ${m?"bạn trai → His":"bạn gái → Her"}.`)},
+ ()=>{const w=pick(NOUNS);return Math.random()<.5?mk(`___ is my ${w}.`,"This",["These","Those","They"],"Một vật: This is ..."):mk(`___ are my ${w}s.`,"These",["This","It","He"],"Nhiều vật: These are ...")},
+ ()=>{const[a,v]=pick(EN["Hoạt động"]);const y=Math.random()<.5;return mk(`Can you ${a}? – ${y?"Yes":"No"}, I ___ .`,y?"can":"can’t",[y?"can’t":"can","am","do"],`${y?"Yes, I can.":"No, I can’t."} (${a} = ${v})`)},
+ ()=>{const[w,v]=pick(EN["Thời tiết"]);return mk(`What’s the weather like? – It’s ___ . (${v})`,w,pickN(EN["Thời tiết"].map(x=>x[0]),3,[w]),`${w} = ${v}.`)},
+ ()=>{const[o,c]=pick([["banana","yellow"],["grass","green"],["sky","blue"],["snow","white"],["tomato","red"],["crow","black"],["leaf","green"],["milk","white"],["sun","yellow"],["strawberry","red"]]);return mk(`What colour is the ${o}? – It’s ___ .`,c,pickN(["red","blue","green","yellow","black","white","pink","orange"],3,[c]),`The ${o} is ${c}.`)},
+ ()=>{const a=R(1,10),b=R(1,10);return mk(`${cap(NUMW[a])} + ${NUMW[b]} = ?`,NUMW[a+b],pickN(NUMW.slice(1),3,[NUMW[a+b]]),`${a} + ${b} = ${a+b} → ${NUMW[a+b]}.`)}],
+3:[orderQ,orderQ,()=>{const[s,a]=pick(QW);return mk(s,a,["What","Where","Who","How"],`Từ để hỏi đúng: ${a}.`,"What: cái gì · Where: ở đâu · Who: ai · How: thế nào/bao nhiêu.")},
+ ()=>{const[A,B]=pickN(ENCAT,2);const odd=pick(EN[B])[0];return mk("Chọn từ khác loại:",odd,pickN(EN[A].map(x=>x[0]),3),`“${odd}” thuộc chủ đề ${B}, các từ còn lại thuộc chủ đề ${A}.`)}]};
+
+/* Toán (dùng bộ sinh sẵn có) */
+const G_TOAN={1:G1,2:G2,3:G3};
+
+/* Đạo đức */
+const DD_G=["chào hỏi lễ phép với người lớn","giữ lời hứa với bạn","xin lỗi khi làm sai","giúp bà xách đồ nặng","đứng nghiêm khi chào cờ","nhặt rác bỏ đúng nơi","nói thật với cô giáo","nhường em bé đồ chơi","đi bộ trên vỉa hè","đội mũ bảo hiểm khi ngồi xe máy","hỏi thầy cô khi chưa hiểu bài","làm xong bài tập rồi mới chơi","cảm ơn khi được giúp đỡ","thăm hỏi hàng xóm bị ốm","treo cờ Tổ quốc ngày lễ"];
+const DD_B=["nói chuyện khi chào cờ","vẽ bậy lên tường","trêu chọc bạn","nói dối bố mẹ","chạy qua đường khi đèn đỏ","chép bài của bạn","hứa rồi quên không làm","làm ồn giờ nghỉ trưa","bẻ cây ở công viên","giành đồ chơi của em","đá bóng dưới lòng đường","vứt rác xuống sông","đánh nhau với bạn","nói trống không với người lớn","bỏ dở việc được giao"];
+const DEN=[["đèn đỏ","dừng lại"],["đèn vàng","đi chậm lại, chuẩn bị dừng"],["đèn xanh","được đi"]];
+const G_DD=merge(gb(DD_G,DD_B),{1:[()=>pairQ(DEN,a=>`Gặp ${a}, người và xe phải:`,b=>`Tín hiệu nào báo “${b}”?`)]});
+
+/* Tự nhiên và Xã hội */
+const AN=[["cá chép","Cá","trứng",1],["cá rô","Cá","trứng",1],["gà","Chim","trứng",1],["vịt","Chim","trứng",1],["chim sẻ","Chim","trứng",1],["đại bàng","Chim","trứng",1],["mèo","Thú","con",1],["chó","Thú","con",1],["trâu","Thú","con",1],["bò","Thú","con",1],["lợn","Thú","con",1],["ngựa","Thú","con",1],["thỏ","Thú","con",1],["hổ","Thú","con",1],["voi","Thú","con",1],["dơi","Thú","con",1],["cá voi","Thú","con",1],["ếch","Lưỡng cư","trứng",1],["rắn","Bò sát","trứng",1],["rùa","Bò sát","trứng",1],["cá sấu","Bò sát","trứng",1],["tôm","Giáp xác","trứng",0],["cua","Giáp xác","trứng",0],["ốc sên","Thân mềm","trứng",0],["giun đất","Giun","trứng",0],["ong","Côn trùng","trứng",0],["bướm","Côn trùng","trứng",0],["kiến","Côn trùng","trứng",0],["châu chấu","Côn trùng","trứng",0],["muỗi","Côn trùng","trứng",0]];
+const TRICK=["dơi","cá voi","vịt","ếch","rùa"];
+const ORG={"Tiêu hóa":["miệng","thực quản","dạ dày","ruột non","ruột già"],"Tuần hoàn":["tim","mạch máu"],"Thần kinh":["não","tủy sống","dây thần kinh"],"Hô hấp":["mũi","khí quản","phổi"]};
+const PLANT=[["rễ","hút nước và muối khoáng từ đất"],["thân","nâng đỡ cây, vận chuyển nước và chất dinh dưỡng"],["lá","tạo chất dinh dưỡng nhờ ánh sáng, trao đổi khí"],["hoa","tạo thành quả và hạt"],["hạt","mọc thành cây mới"]];
+const EAT=[["cà rốt","rễ"],["củ cải","rễ"],["khoai lang","rễ"],["su hào","thân"],["mía","thân"],["măng tre","thân"],["rau cải","lá"],["bắp cải","lá"],["rau ngót","lá"],["súp lơ","hoa"],["hoa thiên lí","hoa"],["quả cam","quả"],["quả dưa hấu","quả"],["hạt đậu","hạt"],["hạt lạc","hạt"]];
+const FAM=[["Anh trai của bố","bác"],["Em trai của bố","chú"],["Em gái của bố","cô"],["Em gái của mẹ","dì"],["Anh, em trai của mẹ","cậu"],["Bố của bố","ông nội"],["Mẹ của bố","bà nội"],["Bố của mẹ","ông ngoại"],["Mẹ của mẹ","bà ngoại"],["Vợ của chú","thím"],["Vợ của cậu","mợ"]];
+const NOI=["ông nội","bà nội","bác (anh của bố)","chú","cô","thím"],NGOAI=["ông ngoại","bà ngoại","cậu","dì","mợ"];
+const DH=[["núi","đất nhô cao, đỉnh nhọn, sườn dốc"],["đồi","đất nhô lên, đỉnh tròn, sườn thoải"],["đồng bằng","vùng đất rộng, bằng phẳng"],["cao nguyên","vùng đất cao, rộng, khá bằng phẳng, sườn dốc"],["sông","dòng nước chảy dài, có nước ngọt"],["biển","vùng nước mặn rộng lớn"],["hồ","vùng nước đọng lại trong đất liền"]];
+const DIRS=["Bắc","Đông","Nam","Tây"];
+const G_TNXH={
+1:[()=>{const c=pick(AN.filter(a=>a[2]==="con"));return mk("Con vật nào đẻ con?",c[0],pickN(AN.filter(a=>a[2]==="trứng").map(a=>a[0]),3),`${cap(c[0])} đẻ con, nuôi con bằng sữa.`)},
+ ()=>{const c=pick(AN.filter(a=>a[2]==="trứng"));return mk("Con vật nào đẻ trứng?",c[0],pickN(AN.filter(a=>a[2]==="con").map(a=>a[0]),3),`${cap(c[0])} đẻ trứng.`)},
+ ()=>{const c=pick(AN.filter(a=>!a[3]));return mk("Con vật nào KHÔNG có xương sống?",c[0],pickN(AN.filter(a=>a[3]).map(a=>a[0]),3),`${cap(c[0])} không có xương sống.`)},
+ ()=>pairQ(PLANT,a=>`Bộ phận ${a} của cây có chức năng gì?`,b=>`Bộ phận nào của cây có chức năng: ${b}?`),
+ ()=>pairQ(FAM,a=>`${a}, em gọi là:`,null,(a,b)=>`${a} gọi là ${b}.`)],
+2:[()=>which(ORG,it=>`${cap(it)} thuộc cơ quan nào?`,(it,k)=>`${cap(it)} thuộc cơ quan ${k.toLowerCase()}.`),
+ ()=>{const a=pick(AN.filter(x=>!TRICK.includes(x[0])));const gs=[...new Set(AN.map(x=>x[1]))];return mk(`Con ${a[0]} thuộc nhóm động vật nào?`,a[1],pickN(gs,3,[a[1]]),`Con ${a[0]} thuộc nhóm ${a[1].toLowerCase()}.`)},
+ ()=>{const[f,p]=pick(EAT);return mk(`Khi ăn ${f}, ta ăn bộ phận nào của cây?`,cap(p),pickN(["Rễ","Thân","Lá","Hoa","Quả","Hạt"],3,[cap(p)]),`Phần ta ăn của ${f} là ${p}.`)},
+ ()=>{const n=Math.random()<.5;const it=pick(n?NOI:NGOAI);return mk(`${cap(it)} thuộc họ hàng bên nào?`,n?"Họ nội (bên bố)":"Họ ngoại (bên mẹ)",[n?"Họ ngoại (bên mẹ)":"Họ nội (bên bố)","Không phải họ hàng"],`${cap(it)} thuộc ${n?"họ nội":"họ ngoại"}.`)},
+ ()=>pairQ(DH,a=>`Đặc điểm của ${a} là:`,b=>`Dạng địa hình nào có đặc điểm: ${b}?`)],
+3:[()=>{const a=AN.find(x=>x[0]===pick(TRICK));const gs=[...new Set(AN.map(x=>x[1]))];return mk(`Con ${a[0]} thuộc nhóm động vật nào?`,a[1],pickN(gs,3,[a[1]]),a[1]==="Thú"?`${cap(a[0])} đẻ con, nuôi con bằng sữa nên thuộc nhóm thú.`:`Con ${a[0]} thuộc nhóm ${a[1].toLowerCase()}.`,"Xem con vật đẻ con hay đẻ trứng, có nuôi con bằng sữa không.")},
+ ()=>{const f=R(0,3);const t=pick([["tay phải",1],["tay trái",3],["sau lưng",2]]);const a=DIRS[(f+t[1])%4];return mk(`Em đứng quay mặt về hướng ${DIRS[f]}. ${cap(t[0])} của em chỉ hướng nào?`,a,DIRS.filter(x=>x!==a),`Theo chiều kim đồng hồ: Bắc → Đông → Nam → Tây. Mặt hướng ${DIRS[f]} thì tay phải là ${DIRS[(f+1)%4]}, tay trái là ${DIRS[(f+3)%4]}, sau lưng là ${DIRS[(f+2)%4]}.`,"Nhớ: mặt hướng Bắc thì tay phải chỉ hướng Đông.")},
+ ()=>{const[f,p]=pick(EAT.filter(x=>["rễ","thân","hoa"].includes(x[1])));return mk(`Khi ăn ${f}, ta ăn bộ phận nào của cây?`,cap(p),pickN(["Rễ","Thân","Lá","Hoa","Quả","Hạt"],3,[cap(p)]),`${cap(f)} là ${p} của cây (nhiều bạn hay nhầm).`)}]};
+
+/* Tin học */
+const KEYS=[["Space (phím cách)","tạo khoảng trống giữa hai chữ"],["Enter","xuống dòng mới"],["Backspace","xóa chữ bên trái con trỏ"],["Delete","xóa chữ bên phải con trỏ"],["Shift","giữ để gõ chữ hoa"],["Caps Lock","bật, tắt chế độ gõ chữ hoa"],["Esc","thoát, hủy lệnh đang làm"]];
+const MOUSE=[["nháy chuột","nhấn nhanh nút trái một lần"],["nháy đúp chuột","nhấn nhanh nút trái hai lần liên tiếp"],["nháy nút phải chuột","nhấn nút phải để mở bảng chọn"],["kéo thả chuột","giữ nút trái, di chuột rồi thả tay"]];
+const DEV={"vào":["bàn phím","chuột","micro","máy quét","webcam"],"ra":["màn hình","loa","máy in","tai nghe"]};
+const SENSE=[["tiếng chuông điện thoại","Tai"],["màu đèn giao thông","Mắt"],["mùi thơm của hoa","Mũi"],["vị mặn của muối","Lưỡi"],["độ nóng của cốc nước","Da (tay)"],["tiếng trống trường","Tai"],["chữ trên bảng","Mắt"],["mùi khét","Mũi"],["vị ngọt của kẹo","Lưỡi"],["độ mềm của gấu bông","Da (tay)"]];
+const NET_G=["hỏi bố mẹ trước khi vào trang web mới","giữ bí mật mật khẩu","báo người lớn khi gặp nội dung đáng sợ","nghỉ mắt sau 30 phút dùng máy","chỉ nói chuyện với người quen trên mạng","ngồi thẳng lưng khi dùng máy tính"];
+const NET_B=["cho người lạ biết địa chỉ nhà","bấm vào quảng cáo “nhận quà”","gửi ảnh cho người lạ","dùng máy tính đến khuya","dí mắt sát màn hình","hẹn gặp người quen trên mạng"];
+const TASKS=[["pha nước cam",["vắt cam","đổ nước vào cốc","cho đường","khuấy đều"]],["trồng cây",["đào hố","đặt cây xuống hố","lấp đất","tưới nước"]],["rửa tay",["làm ướt tay","xoa xà phòng","chà kĩ các ngón tay","rửa sạch bằng nước"]],["đánh răng",["lấy bàn chải","bóp kem đánh răng","chải răng","súc miệng"]],["bật máy tính",["cắm điện","nhấn nút nguồn","chờ màn hình hiện lên","nháy đúp mở phần mềm"]],["tắt máy tính",["lưu bài đang làm","đóng các phần mềm","chọn Start rồi Shut down","chờ máy tắt hẳn"]]];
+const G_TIN=merge(gb(NET_G,NET_B),{
+1:[()=>pairQ(KEYS,a=>`Phím ${a} dùng để làm gì?`,b=>`Phím nào dùng để ${b}?`),()=>pairQ(MOUSE,a=>`Thao tác “${a}” là:`,b=>`Thao tác “${b}” gọi là gì?`),()=>{const[a,b]=pick(SENSE);return mk(`Em nhận biết ${a} bằng giác quan nào?`,b,pickN(["Tai","Mắt","Mũi","Lưỡi","Da (tay)"],3,[b]),`${cap(a)}: nhận biết bằng ${b.toLowerCase()}.`)}],
+2:[()=>{const v=Math.random()<.5;return cls(DEV,v?"vào":"ra",`Thiết bị nào dùng để đưa thông tin ${v?"VÀO":"RA khỏi"} máy tính?`,a=>`${cap(a)} là thiết bị ${v?"vào":"ra"}.`)},()=>seqQ(TASKS)],
+3:[()=>{const s=R(1,5),a=R(1,4),b=R(1,3),c=R(1,3);return N(`Robot đứng ở ô số ${s}. Lệnh: tiến ${a} ô, lùi ${b} ô, tiến ${c} ô. Robot ở ô số mấy?`,s+a-b+c,`${s} + ${a} − ${b} + ${c} = ${s+a-b+c}.`,[s+a+b+c,s+a-b],'',"Làm lần lượt từng lệnh.")},
+ ()=>{const s=R(1,3),k=R(2,4),a=R(1,3);return N(`Robot ở ô số ${s}. Lệnh “tiến ${a} ô” được lặp lại ${k} lần. Robot đến ô số mấy?`,s+k*a,`Lặp ${k} lần, mỗi lần ${a} ô: tiến ${k*a} ô. ${s} + ${k*a} = ${s+k*a}.`,[s+a,s+k+a],'',"Lặp lại k lần là làm k lần giống nhau.")},()=>nextQ(TASKS)]});
+
+/* Công nghệ */
+const TNCN={"tự nhiên":["cây xanh","dòng sông","ngọn núi","con chim","mặt trời","đám mây","hòn đá","bãi cát","con suối","cơn mưa","bông hoa dại","con cá"],"công nghệ":["quạt điện","ti vi","xe đạp","bút chì","điện thoại","cái ghế","bóng đèn","máy tính","ô tô","quyển vở","cái cốc","nồi cơm điện","tủ lạnh","cây cầu"]};
+const LAMP=[["công tắc","bật, tắt đèn"],["chụp đèn","tập trung ánh sáng, đỡ chói mắt"],["bóng đèn","phát ra ánh sáng"],["đế đèn","giữ cho đèn đứng vững"],["thân đèn","đỡ bóng đèn, chỉnh hướng chiếu"],["dây nguồn","dẫn điện đến đèn"]];
+const FAN=[["cánh quạt","quay để tạo ra gió"],["lồng quạt","che chắn, bảo vệ cánh quạt"],["động cơ","làm cánh quạt quay"],["nút điều khiển","bật, tắt và chọn tốc độ gió"],["đế quạt","giữ cho quạt đứng vững"]];
+const SIGN={"Biển cấm (tròn, viền đỏ)":["cấm đi ngược chiều","cấm người đi bộ","cấm xe đạp","cấm bóp còi"],"Biển nguy hiểm (tam giác, viền đỏ, nền vàng)":["trẻ em qua đường","đường trơn","giao nhau với đường sắt","công trường"],"Biển hiệu lệnh (tròn, nền xanh)":["hướng đi phải theo","đường dành cho người đi bộ","đường dành cho xe thô sơ"],"Biển chỉ dẫn (vuông/chữ nhật, nền xanh)":["nơi đỗ xe","bệnh viện","điểm dừng xe buýt"]};
+const EL_G=["lau khô tay trước khi cắm điện","tắt quạt khi ra khỏi phòng","báo người lớn khi thấy dây điện hở","dùng nắp che ổ điện khi nhà có em bé","rút phích cắm bằng cách cầm vào phích","xem ti vi ngồi cách xa màn hình"];
+const EL_B=["cắm vật lạ vào ổ điện","cho ngón tay vào lồng quạt","kéo dây điện để rút phích","chơi thả diều gần đường dây điện","tự tháo quạt đang cắm điện ra sửa","sờ vào bóng đèn đang nóng"];
+const G_CN=merge(gb(EL_G,EL_B),{
+1:[()=>{const t=pick(["tự nhiên","công nghệ"]);return cls(TNCN,t,t==="tự nhiên"?"Đâu là đối tượng tự nhiên?":"Đâu là sản phẩm công nghệ?",a=>t==="tự nhiên"?`${cap(a)} có sẵn trong tự nhiên.`:`${cap(a)} do con người làm ra.`)},()=>pairQ(LAMP,a=>`Bộ phận “${a}” của đèn học có tác dụng gì?`,b=>`Bộ phận nào của đèn học có tác dụng: ${b}?`)],
+2:[()=>pairQ(FAN,a=>`Bộ phận “${a}” của quạt điện có tác dụng gì?`,b=>`Bộ phận nào của quạt điện có tác dụng: ${b}?`),()=>which(SIGN,it=>`Biển báo “${it}” thuộc nhóm nào?`,(it,k)=>`Biển “${it}” là ${k.toLowerCase()}.`)],
+3:[()=>which(SIGN,it=>`Biển báo “${it}” thuộc nhóm nào?`,(it,k)=>`Biển “${it}” là ${k.toLowerCase()}.`)]});
+
+/* Âm nhạc */
+const NOTES=["Đô","Rê","Mi","Pha","Son","La","Si"];
+const DUR={"nốt trắng":4,"nốt đen":2,"nốt móc đơn":1};
+const STAFF=[["dòng kẻ thứ 1","Mi"],["dòng kẻ thứ 2","Son"],["dòng kẻ thứ 3","Si"],["khe thứ 1","Pha"],["khe thứ 2","La"],["khe thứ 3","Đô cao"],["dòng kẻ phụ bên dưới khuông","Đô"],["ngay dưới dòng kẻ thứ 1","Rê"]];
+const INST={"Nhạc cụ gõ":["thanh phách","song loan","trống con","tambourine","triangle","mõ"],"Nhạc cụ thổi":["sáo trúc","kèn","sáo recorder","kèn harmonica"],"Nhạc cụ gảy":["đàn bầu","đàn tranh","đàn nguyệt","ghi-ta"],"Nhạc cụ kéo":["đàn nhị","vi-ô-lông"],"Nhạc cụ phím":["đàn piano","đàn organ"]};
+const G_AN={
+1:[()=>{const i=R(0,5);return mk(`Nốt nào đứng ngay sau nốt ${NOTES[i]}?`,NOTES[i+1],pickN(NOTES,3,[NOTES[i+1]]),`Thứ tự: ${NOTES.join(" – ")}.`)},()=>{const i=R(1,6);return mk(`Nốt nào đứng ngay trước nốt ${NOTES[i]}?`,NOTES[i-1],pickN(NOTES,3,[NOTES[i-1]]),`Thứ tự: ${NOTES.join(" – ")}.`)},()=>{const t=pick(Object.keys(INST));return cls(INST,t,`Đâu là ${t.toLowerCase()}?`,a=>`${cap(a)} là ${t.toLowerCase()}.`)}],
+2:[()=>{const i=R(0,6);return mk(`Nốt ${NOTES[i]} là nốt thứ mấy trong dãy 7 nốt nhạc?`,`Thứ ${i+1}`,pickN([1,2,3,4,5,6,7].map(x=>`Thứ ${x}`),3,[`Thứ ${i+1}`]),`${NOTES.join(" – ")}.`)},
+ ()=>{const ks=Object.keys(DUR);let x,y;do{x=pick(ks);y=pick(ks)}while(DUR[x]<=DUR[y]);const n=R(1,3);return N(`${n} ${x} dài bằng mấy ${y}?`,n*DUR[x]/DUR[y],`1 ${x} = ${DUR[x]/DUR[y]} ${y}, nên ${n} ${x} = ${n*DUR[x]/DUR[y]} ${y}.`,[],'',"Nốt trắng = 2 nốt đen; nốt đen = 2 nốt móc đơn.")},
+ ()=>which(INST,it=>`${cap(it)} thuộc loại nhạc cụ nào?`),
+ ()=>{const s=pickN([0,1,2,3,4,5,6],4);const mx=Math.max(...s);return mk("Nốt nào cao nhất trong các nốt sau?",NOTES[mx],s.filter(x=>x!==mx).map(x=>NOTES[x]),`Càng về cuối dãy Đô – Rê – Mi – Pha – Son – La – Si, nốt càng cao.`)}],
+3:[()=>pairQ(STAFF,a=>`Với khóa Son, nốt nằm ở ${a} là:`,b=>`Với khóa Son, nốt ${b} nằm ở đâu?`,(a,b)=>`Khóa Son: nốt ${b} nằm ở ${a}.`),
+ ()=>{const ks=Object.keys(DUR);const a=pick(ks),b=pick(ks);const s=DUR[a]+DUR[b];return N(`1 ${a} + 1 ${b} dài bằng mấy nốt móc đơn?`,s,`${a}: ${DUR[a]}, ${b}: ${DUR[b]} nốt móc đơn. Cộng lại ${s}.`,[],'',"Đổi từng nốt ra nốt móc đơn rồi cộng.")},
+ ()=>{const ok=[["nốt trắng"],["nốt đen","nốt đen"],["nốt đen","nốt móc đơn","nốt móc đơn"],["nốt móc đơn","nốt móc đơn","nốt móc đơn","nốt móc đơn"],["nốt móc đơn","nốt đen","nốt móc đơn"]];const bad=[["nốt trắng","nốt đen"],["nốt đen"],["nốt trắng","nốt trắng"],["nốt đen","nốt đen","nốt đen"],["nốt đen","nốt móc đơn"],["nốt trắng","nốt móc đơn"]];const f=c=>c.map(cap).join(" + ");return mk("Ô nhịp 2/4 nào có đủ 2 phách? (nốt đen = 1 phách)",f(pick(ok)),pickN(bad,3).map(f),"Nốt trắng = 2 phách, nốt đen = 1 phách, nốt móc đơn = nửa phách.","Cộng số phách của từng nốt.")}]};
+
+/* Mĩ thuật */
+const MIX=[["đỏ","vàng","cam"],["vàng","lam","xanh lá"],["đỏ","lam","tím"]];
+const TEMP={"màu nóng":["đỏ","cam","vàng","đỏ cam","vàng cam"],"màu lạnh":["lam","xanh lá","tím","xanh da trời","xanh ngọc"]};
+const KHOI={"Khối cầu":["quả bóng","viên bi","quả địa cầu","quả cam"],"Khối hộp":["hộp sữa giấy","bao diêm","viên gạch","tủ lạnh"],"Khối trụ":["lon nước ngọt","ống nước","cột đình","hộp bút tròn"],"Khối nón":["nón lá","kem ốc quế","mũ sinh nhật","cái phễu"]};
+const NET={"Nét gấp khúc":["tia chớp","cầu thang","răng cưa"],"Nét lượn sóng":["sóng biển","con rắn đang bò","gợn nước"],"Nét cong":["cầu vồng","vành trăng khuyết","cánh cung"],"Nét thẳng":["cột điện","đường chân trời","chiếc thước kẻ"]};
+const BT=[["đỏ","xanh lá"],["vàng","tím"],["lam","cam"]];
+const G_MT={
+1:[()=>{const[a,b,c]=pick(MIX);const[x,y]=shuffle([a,b]);return mk(`Pha màu ${x} với màu ${y} được màu gì?`,`Màu ${c}`,pickN(["cam","xanh lá","tím","nâu","hồng","đen"],3,[c]).map(v=>"Màu "+v),`${cap(x)} + ${y} = ${c}.`)},
+ ()=>{const t=pick(Object.keys(TEMP));return cls(TEMP,t,`Màu nào là ${t}?`,a=>`${cap(a)} là ${t}.`)},()=>which(KHOI,it=>`${cap(it)} có dạng khối gì?`)],
+2:[()=>{const[a,b,c]=pick(MIX);return mk(`Muốn có màu ${c}, em pha hai màu nào?`,`${cap(a)} và ${b}`,MIX.filter(m=>m[2]!==c).map(m=>`${cap(m[0])} và ${m[1]}`).concat(["Đen và trắng"]),`${cap(a)} + ${b} = ${c}.`)},
+ ()=>which(NET,it=>`Hình ảnh “${it}” gợi cho em loại nét nào?`),
+ ()=>{const c=pick(["đỏ","xanh lá","tím","cam","lam"]);const w=Math.random()<.5;return mk(`Màu ${c} pha thêm màu ${w?"trắng":"đen"} sẽ:`,w?"Nhạt hơn":"Đậm hơn",[w?"Đậm hơn":"Nhạt hơn","Thành màu vàng","Không thay đổi"],`Thêm trắng thì nhạt hơn, thêm đen thì đậm hơn.`)}],
+3:[()=>{const pr=pick(BT);const[x,y]=Math.random()<.5?pr:[pr[1],pr[0]];return mk(`Màu bổ túc (tương phản) của màu ${x} là:`,y,pickN(["đỏ","xanh lá","vàng","tím","lam","cam"],3,[x,y]),`${cap(x)} – ${y} là cặp màu bổ túc: đặt cạnh nhau làm nhau nổi bật.`,"Màu bổ túc = pha hai màu cơ bản còn lại.")},
+ ()=>{const pr=pick(BT);return mk(`Nền tranh màu ${pr[1]}. Để hình chính nổi bật nhất, nên tô màu nào?`,cap(pr[0]),pickN(["Đỏ","Xanh lá","Vàng","Tím","Lam","Cam"],3,[cap(pr[0]),cap(pr[1])]),`${cap(pr[0])} là màu bổ túc của ${pr[1]}.`)}]};
+
+const MT_G=["rửa sạch cọ sau khi vẽ","đậy nắp bút màu sau khi dùng","trải giấy báo lên bàn trước khi nặn đất","dùng kéo cẩn thận","cất gọn màu vẽ vào hộp","dùng vỏ hộp cũ để làm đồ chơi","xin phép trước khi dùng màu của bạn"];
+const MT_B=["đổ nước rửa cọ ra bàn","cho bút màu vào miệng","vẽ lên tường nhà","ném đất nặn vào bạn","để màu nước dính vào mắt","vứt vụn giấy ra sàn lớp","giật bút màu của bạn"];
+const SCN=[["Mùa hè rực nắng","Nhiều màu nóng"],["Biển xanh mát","Nhiều màu lạnh"],["Lễ hội đêm trăng rằm","Nhiều màu nóng"],["Rừng cây buổi sáng","Nhiều màu lạnh"],["Ngọn lửa trại","Nhiều màu nóng"],["Mùa đông lạnh giá","Nhiều màu lạnh"]];
+Object.assign(G_MT,merge(G_MT,gb(MT_G,MT_B),{2:[()=>which(KHOI,it=>`${cap(it)} có dạng khối gì?`),()=>{const t=pick(Object.keys(TEMP));return cls(TEMP,t,`Màu nào là ${t}?`,a=>`${cap(a)} là ${t}.`)}],3:[()=>which(NET,it=>`Hình ảnh “${it}” gợi cho em loại nét nào?`),()=>{const[a,b]=pick(SCN);return mk(`Vẽ tranh “${a}”, em nên dùng:`,b,["Nhiều màu nóng","Nhiều màu lạnh","Chỉ màu đen","Chỉ màu trắng"].filter(x=>x!==b),b==="Nhiều màu nóng"?"Màu nóng (đỏ, cam, vàng) gợi cảm giác ấm, rực rỡ.":"Màu lạnh (lam, xanh lá, tím) gợi cảm giác mát, yên tĩnh.")}]}));
+
+/* Giáo dục thể chất */
+const TC_G=["khởi động trước khi tập","uống nước từ từ sau khi chạy","mặc quần áo thể thao gọn gàng","đi giày khi chạy trên sân","tập thể dục buổi sáng","thả lỏng sau khi tập","nghỉ ngơi khi thấy mệt","lau mồ hôi sau khi tập","chơi đúng luật","đội mũ khi tập ngoài nắng"];
+const TC_B=["chạy ngay sau khi ăn no","uống nước đá một hơi thật nhiều","đi dép lê khi chạy","xô đẩy bạn khi chơi","tập giữa trưa nắng gắt","cố chạy khi đang chóng mặt","bỏ qua phần khởi động","ngồi trước quạt mạnh khi người đầy mồ hôi","gian lận khi chơi","leo trèo lên xà khi không có thầy cô"];
+const KL=[["Nghiêm!","đứng thẳng, gót chân sát nhau, hai tay áp sát thân"],["Nghỉ!","chùng một chân, người thả lỏng"],["Bên phải – quay!","xoay người sang phải"],["Bên trái – quay!","xoay người sang trái"],["Đằng sau – quay!","quay người ra phía sau"],["Điểm số!","đọc số của mình to, rõ"],["Giải tán!","rời khỏi hàng"]];
+const BTD=["vươn thở","tay","chân","lườn","bụng","phối hợp","nhảy","điều hòa"];
+const G_TC=merge(gb(TC_G,TC_B),{2:[()=>pairQ(KL,a=>`Nghe khẩu lệnh “${a}”, em làm gì?`,b=>`Khẩu lệnh nào yêu cầu: ${b}?`)],3:[()=>{const i=R(0,6);return mk(`Trong bài thể dục, động tác nào ngay sau động tác ${BTD[i]}?`,cap(BTD[i+1]),pickN(BTD.map(cap),3,[cap(BTD[i+1]),cap(BTD[i])]),`Thứ tự: ${BTD.join(" → ")}.`)}]});
+
+/* Hoạt động trải nghiệm */
+const RAC={"Rác hữu cơ":["vỏ chuối","lá cây khô","thức ăn thừa","vỏ trứng","bã chè","vỏ cam"],"Rác tái chế":["chai nhựa","lon nước ngọt","giấy báo cũ","hộp các-tông","vỏ hộp sữa","chai thủy tinh"],"Rác còn lại":["túi ni lông bẩn","giấy ăn đã dùng","vỏ bim bim","bút bi hỏng","khẩu trang đã dùng"]};
+const NGHE=[["nông dân","trồng lúa, chăm sóc cây trồng"],["bác sĩ","khám và chữa bệnh"],["giáo viên","dạy học"],["công nhân xây dựng","xây nhà, làm đường"],["thợ may","may quần áo"],["đầu bếp","nấu món ăn"],["lính cứu hỏa","chữa cháy, cứu người"],["công an","giữ gìn trật tự, an ninh"],["phi công","lái máy bay"],["cán bộ địa chính","đo đạc, quản lí hồ sơ đất đai"],["người bán hàng","bán hàng hóa"],["kĩ sư","thiết kế, xây dựng công trình, máy móc"]];
+const TN_G=["tự gấp chăn màn","chuẩn bị sách vở theo thời khóa biểu","khóa vòi nước khi đánh răng","phân loại rác","chia sẻ đồ dùng với bạn","giúp mẹ dọn mâm","lập thời gian biểu","để dành một phần tiền tiêu vặt","từ chối quà của người lạ","hít thở sâu khi tức giận"];
+const TN_B=["để bố mẹ dọn cặp giùm","để vòi nước chảy khi không dùng","tiêu hết tiền vào đồ ăn vặt","đi theo người lạ","thức khuya xem điện thoại","ném đồ khi tức giận","vứt rác không phân loại","bỏ bữa sáng","nói xấu bạn","để quần áo bừa bãi"];
+const G_HD=merge(gb(TN_G,TN_B),{1:[()=>pairQ(NGHE,a=>`Công việc chính của ${a} là:`,b=>`Người làm công việc “${b}” làm nghề gì?`)],2:[()=>which(RAC,it=>`${cap(it)} là loại rác nào?`,(it,k)=>`${cap(it)} → ${k.toLowerCase()}.`)]});
+
+const GEN={tv:G_TV,toan:G_TOAN,ta:G_TA,dd:G_DD,tnxh:G_TNXH,tin:G_TIN,cn:G_CN,an:G_AN,mt:G_MT,gdtc:G_TC,hdtn:G_HD};
+
 /* ---------- tạo đề ---------- */
 const fromArr=b=>({q:b[0],o:[b[1]].concat(b[2]),e:b[3],h:b[4]||"",p:b[5]||""});
-const G={1:G1,2:G2,3:G3};
+SUBJ.forEach(s=>{s.G=GEN[s.id]||{};s.L=s.L||{}});
+SUBJ.find(s=>s.id==="toan").L={3:M3};
+S.seen=S.seen||{};
+const qkey=q=>q.q+"#"+q.o[0]+"#"+(q.p||"").slice(0,12);
+function markSeen(sid,lv,q){const k=sid+lv;const a=S.seen[k]=S.seen[k]||[];const x=qkey(q);if(!a.includes(x)){a.push(x);if(a.length>800)a.splice(0,a.length-800)}}
+function bankInfo(s,lv){const b=(s.L[lv]||[]);const seen=new Set(S.seen[s.id+lv]||[]);const fresh=b.filter(x=>!seen.has(qkey(fromArr(x)))).length;return{total:b.length,fresh,gen:((s.G[lv]||[]).length>0)}}
 function build(s,lv){
- let qs=[];
- if(s.id==="toan"){
-  if(lv<3){const g=shuffle(G[lv]);for(let i=0;i<10;i++)qs.push(g[i%g.length]())}
-  else{const g=shuffle(G3);for(let i=0;i<7;i++)qs.push(g[i%g.length]());qs=qs.concat(shuffle(M3).slice(0,3).map(fromArr))}
-  if(lv>1)qs.forEach(q=>{if(q.ans&&Math.random()<.4)q.input=true});
- }else if(s.id==="ta"&&lv===1){qs=shuffle(s.L[1]).slice(0,5).map(fromArr);const seen=new Set();while(qs.length<10){const q=enGen();if(!seen.has(q.q)){seen.add(q.q);qs.push(q)}}}
- else qs=shuffle(s.L[lv]).slice(0,10).map(fromArr);
- return shuffle(qs);
+ const seen=new Set(S.seen[s.id+lv]||[]);const out=[],used=new Set();
+ const add=q=>{if(!q||!q.o||q.o.length<2)return false;const k=qkey(q);if(used.has(k))return false;used.add(k);out.push(q);return true};
+ const bank=shuffle(s.L[lv]||[]).map(fromArr);const gens=s.G[lv]||[];
+ const fresh=bank.filter(q=>!seen.has(qkey(q)));
+ const nb=gens.length?(s.id==="toan"?Math.min(3,fresh.length):Math.min(4,fresh.length)):fresh.length;
+ fresh.slice(0,nb).forEach(add);
+ let t=0;while(out.length<10&&gens.length&&t<300){t++;let q;try{q=pick(gens)()}catch(e){continue}if(!q)continue;if(seen.has(qkey(q))&&t<220)continue;add(q)}
+ for(const q of bank){if(out.length>=10)break;add(q)}
+ if(s.id==="toan"&&lv>1)out.forEach(q=>{if(q.ans&&Math.random()<.4)q.input=true});
+ return shuffle(out.slice(0,10));
 }
-function buildAll(){let qs=[];SUBJ.forEach(s=>{const lvs=[1,2,3].filter(l=>unlocked(s.id,l));for(let i=0;i<2;i++){const lv=pick(lvs);const one=build(s,lv)[0];one.sid=s.id;qs.push(one)}});return shuffle(qs)}
+function buildAll(){let qs=[];SUBJ.forEach(s=>{const lvs=[1,2,3].filter(l=>unlocked(s.id,l));for(let i=0;i<2;i++){const lv=pick(lvs);const one=build(s,lv)[0];if(one){one.sid=s.id;qs.push(one)}}});return shuffle(qs)}
 
 /* ---------- màn hình ---------- */
 const app=$("#app");
@@ -784,14 +1006,15 @@ function home(){
   <div class="tcard"><span class="k">Chuỗi ngày học</span><span class="v">${st}<small> ngày liên tiếp</small></span><span style="color:var(--muted);font-size:.9rem">${st?"Giữ vững chuỗi nhé!":"Làm 1 câu hôm nay để bắt đầu."}</span></div>
   <div class="tcard ${due?"due":""}"><span class="k">Hộp ôn tập</span><span class="v">${due}<small> câu cần ôn</small></span><button class="btn ${due?"warn":"sec"}" id="rev" ${due?"":"disabled"}>${due?"Ôn ngay":"Chưa có câu cần ôn"}</button></div>
  </div>
- <div class="grid">${SUBJ.map(s=>`<button class="sub" style="--h:${s.h}" data-id="${s.id}"><div class="label"><div class="badge" style="--h:${s.h}">${s.b}</div><h3>${s.name}</h3></div>
-  <div class="meta"><span>${s.intro}</span><div class="steps">${[1,2,3].map(l=>{const ok=pct(s.id,l)>=.8,op=unlocked(s.id,l);return`<span class="stp ${ok?"done":op?"open":""}">Mức ${l}</span>`}).join("")}</div><span>${subStars(s.id)} / 9 sao</span></div></button>`).join("")}</div>
+ <div class="grid">${SUBJ.map(s=>`<div class="sub" style="--h:${s.h}"><button class="label" data-open="${s.id}"><div class="badge" style="--h:${s.h}">${s.b}</div><h3>${s.name}</h3><span class="more">Bài học ›</span></button>
+  <div class="meta"><span>${s.intro}</span><div class="steps">${[1,2,3].map(l=>{const ok=pct(s.id,l)>=.8,op=unlocked(s.id,l),r=lvRec(s.id,l);return`<button class="stp ${ok?"done":op?"open":""}" data-go="${s.id}" data-lv="${l}" aria-label="Luyện ${s.name} mức ${l}">Mức ${l}<small>${r?r.stars+"★":op?"Luyện":"Khóa"}</small></button>`}).join("")}</div><span>${subStars(s.id)} / 9 sao · chạm Mức để luyện ngay</span></div></div>`).join("")}</div>
  <div class="row2">
   <div class="box"><h3>Ôn tập xen kẽ</h3><p>22 câu trộn đủ 11 môn, lấy ở các mức đã mở. ${S.all?`Cao nhất: ${S.all.best}/${S.all.total}.`:""}</p><button class="btn" id="goall">Làm bài ôn tập</button></div>
   <div class="box"><h3>Góc bố mẹ</h3><p>Xem tiến độ từng môn, câu hay sai, phương pháp học và cài đặt.</p><button class="btn sec" id="par">Mở Góc bố mẹ</button></div>
  </div>
  <p class="foot">Theo Chương trình Giáo dục phổ thông 2018, lớp 3. Tiến độ lưu trên trình duyệt của máy đang dùng.</p>`;
- app.querySelectorAll(".sub").forEach(b=>b.onclick=()=>openSub(b.dataset.id,"learn"));
+ app.querySelectorAll("[data-open]").forEach(b=>b.onclick=()=>openSub(b.dataset.open,"learn"));
+ app.querySelectorAll("[data-go]").forEach(b=>b.onclick=()=>{const s=SUBJ.find(x=>x.id===b.dataset.go),lv=+b.dataset.lv;if(!unlocked(s.id,lv)){toast(`Cần đạt 8/10 ở Mức ${lv-1} trước.`);openSub(s.id,"quiz");return}runQuiz(build(s,lv),{mode:"lv",sid:s.id,lv,title:`${s.name} · ${LVN[lv]}`,h:s.h})});
  $("#goall").onclick=()=>runQuiz(buildAll(),{mode:"all",title:"Ôn tập xen kẽ",h:350});
  $("#par").onclick=parent;
  if(due)$("#rev").onclick=review;
@@ -833,7 +1056,7 @@ function openSub(id,tab){
  const body=$("#body");
  if(tab==="learn"){body.innerHTML=`<div class="lessons">${lessonsHTML(s)}</div><div class="qact" style="justify-content:flex-start;margin-top:16px"><button class="btn col" id="toq">Học xong, làm bài luyện tập →</button></div>`;wire(body);$("#toq").onclick=()=>openSub(id,"quiz")}
  else{
-  body.innerHTML=`<p style="margin:0 0 12px;color:var(--muted);max-width:68ch">${S.requireMastery?"Đạt từ <b>8/10</b> ở một mức thì mức tiếp theo được mở.":"Con có thể chọn bất kì mức nào. Nên đạt từ <b>8/10</b> ở mức trước rồi hãy lên mức sau."} Câu làm sai sẽ tự vào Hộp ôn tập.</p><div class="levels">${[1,2,3].map(l=>{const op=unlocked(id,l),r=lvRec(id,l);return`<div class="lvl ${op?"open":"lock"}"><h3><span class="num">${l}</span>${LVN[l].split(" · ")[1]}</h3><p>${LVD[l]}</p>${mini(r?r.stars:0)}<p>${r?`Cao nhất: ${r.best}/${r.total}`:"Chưa làm"}</p><button class="btn ${op?"col":"sec"}" data-l="${l}" ${op?"":"disabled"}>${op?(r?"Làm lại":"Bắt đầu"):"Cần 8/10 ở Mức "+(l-1)}</button></div>`}).join("")}</div>`;
+  body.innerHTML=`<p style="margin:0 0 12px;color:var(--muted);max-width:68ch">${S.requireMastery?"Đạt từ <b>8/10</b> ở một mức thì mức tiếp theo được mở.":"Con có thể chọn bất kì mức nào. Nên đạt từ <b>8/10</b> ở mức trước rồi hãy lên mức sau."} Câu làm sai sẽ tự vào Hộp ôn tập.</p><div class="levels">${[1,2,3].map(l=>{const op=unlocked(id,l),r=lvRec(id,l);return`<div class="lvl ${op?"open":"lock"}"><h3><span class="num">${l}</span>${LVN[l].split(" · ")[1]}</h3><p>${LVD[l]}</p>${mini(r?r.stars:0)}<p>${r?`Cao nhất: ${r.best}/${r.total}`:"Chưa làm"}</p><p style="font-size:.85rem">${(()=>{const b=bankInfo(s,l);return (b.gen?"Câu tự sinh: không giới hạn":"")+(b.total?`${b.gen?" · ":""}Câu mẫu mới: ${b.fresh}/${b.total}`:"")})()}</p><button class="btn ${op?"col":"sec"}" data-l="${l}" ${op?"":"disabled"}>${op?(r?"Làm lại":"Bắt đầu"):"Cần 8/10 ở Mức "+(l-1)}</button></div>`}).join("")}</div>`;
   body.querySelectorAll("[data-l]").forEach(b=>b.onclick=()=>{const lv=+b.dataset.l;runQuiz(build(s,lv),{mode:"lv",sid:id,lv,title:`${s.name} · ${LVN[lv]}`,h:s.h})});
  }
  scrollTo(0,0);
@@ -864,6 +1087,7 @@ function runQuiz(qs,cfg){
   const done=right=>{
    if(right)score++;
    S.log[today()]=(S.log[today()]||0)+1;
+   if(cfg.mode==="lv")markSeen(cfg.sid,cfg.lv,q);
    if(cfg.mode==="review")boxUpdate(q._it,right);else if(!right)boxAdd(q.sid||cfg.sid,q);
    save();
    const correct=q.input?q.o[0]:q.o[0];
